@@ -1,0 +1,3 @@
+# app-ads.txt — AioTool (com.yaoyili.aitool)
+# 只列实际启用的广告卖方。未启用的网络不要写进来，多余的授权行会被判为不匹配授权，反而更糟。
+google.com, pub-9508988344348600, DIRECT, f08c47fec0942fa0
