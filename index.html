@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AioTool — Eight offline utilities for Android</title>
+  <meta name="description" content="AioTool is a collection of eight everyday Android utilities that work without a network connection: unit converter, date calculator, password generator, QR generator, text tools, countdown, habit tracker and focus timer." />
+  <!--
+    这是 https://yyl1201.github.io/ 的站点首页，也就是 Samsung Seller Portal
+    「个人资料 → 产品页面的开发者信息 → 开发者主页链接」当前指向的地址。
+    三星与 Google 的人工审核都会点进来，所以本页只允许出现已真实存在的东西。
+
+    ⚠️ 维护约束（改动前必读）：
+    1. 不得引入任何外部资源（CDN 字体、统计脚本、图片外链、favicon 外链）。
+       本仓库同时托管隐私政策与 app-ads.txt，页面自己去请求第三方会构成自相矛盾。
+       所有样式必须内联在本文件内。
+    2. 工具名称与描述必须与 app/src/main/res/values/strings_tools.xml 的
+       tool_*_title / tool_*_desc 逐字一致；分类名与 strings_ui.xml 的 category_* 一致。
+       审核会对照 App 内文案，不一致是常见扣分项。
+    3. 语言数量取自 app/src/main/res 下 values-* 目录数 + 默认 values。
+       增删语言时同步改本页与隐私政策。
+    4. 关于权限的措辞必须保留"应用自身不声明权限、网络与广告标识来自广告 SDK"这一区分。
+       合并清单里确实有 INTERNET / AD_ID，笼统宣称"零权限"会被当场证伪。
+    5. 开发者名称 Yili Yao 与邮箱 19994443997@163.com 必须与 Seller Portal 个人资料、
+       privacy-policy.html、以及 build.gradle.kts 的 SUPPORT_EMAIL 四处一致。
+  -->
+  <style>
+    :root {
+      color-scheme: light dark;
+      --fg: #1a1a1a;
+      --muted: #5c6672;
+      --line: #e2e6ea;
+      --bg: #ffffff;
+      --card: #f6f8fa;
+      --accent: #1b6ef3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fg: #e8eaed;
+        --muted: #9aa4b0;
+        --line: #2e343b;
+        --bg: #16181c;
+        --card: #1f2328;
+        --accent: #6ea8fe;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.65;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    a { color: var(--accent); }
+
+    header { border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+    h1 { font-size: 2.1rem; margin: 0 0 .15em; letter-spacing: -.02em; }
+    .tagline { font-size: 1.08rem; color: var(--muted); margin: 0 0 20px; max-width: 62ch; }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0 0 24px; list-style: none; }
+    .badges li {
+      font-size: .84rem; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 3px 12px;
+    }
+
+    .cta {
+      display: inline-block; text-decoration: none;
+      background: var(--accent); color: #fff;
+      padding: 11px 22px; border-radius: 10px;
+      font-weight: 600; font-size: .98rem;
+    }
+    .cta:hover { filter: brightness(1.08); }
+
+    h2 {
+      font-size: 1.15rem; margin: 2.4em 0 .6em;
+      border-bottom: 1px solid var(--line); padding-bottom: .3em;
+      letter-spacing: -.01em;
+    }
+    p { font-size: .98rem; }
+
+    dl { margin: 0; }
+    .grid {
+      display: grid; gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .grid > div {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    dt { font-weight: 600; font-size: .99rem; margin: 0; }
+    dd { margin: .25em 0 0; font-size: .9rem; color: var(--muted); }
+    .cat {
+      display: block; font-size: .74rem; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--muted); margin-bottom: .35em;
+    }
+
+    ul.plain { padding-left: 1.2em; font-size: .96rem; }
+    ul.plain li { margin: .35em 0; }
+
+    .note {
+      font-size: .9rem; color: var(--muted);
+      border-left: 3px solid var(--line);
+      padding: 2px 0 2px 14px; margin: 1.2em 0;
+    }
+
+    footer {
+      margin-top: 3.2em; padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: .88rem; color: var(--muted);
+    }
+    footer nav { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+    footer a { text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    address { font-style: normal; line-height: 1.8; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AioTool</h1>
+  <p class="tagline">
+    Eight everyday utilities for Android, built to work without a network connection.
+    No account to create, nothing to sign in to, and AioTool never uploads the content
+    you type or generate.
+  </p>
+
+  <ul class="badges">
+    <li>8 tools</li>
+    <li>Works offline</li>
+    <li>No account needed</li>
+    <li>12 languages</li>
+    <li>Android 7.0+</li>
+  </ul>
+
+  <a class="cta" href="https://galaxystore.samsung.com/detail/com.yaoyili.aitool">
+    Get it on Samsung Galaxy Store
+  </a>
+</header>
+
+<main>
+
+  <h2>The tools</h2>
+  <dl class="grid">
+    <div>
+      <dt><span class="cat">Converters</span>Unit Converter</dt>
+      <dd>Length, weight, temperature and more</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Converters</span>Date Calculator</dt>
+      <dd>Days between dates, add or subtract days</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Generators</span>Password Generator</dt>
+      <dd>Strong random passwords, created offline</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Generators</span>QR Generator</dt>
+      <dd>Create QR codes for links, Wi-Fi and contacts</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Text</span>Text Tools</dt>
+      <dd>Count words, change case, sort and clean up any text</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Planners</span>Countdown</dt>
+      <dd>Track days until birthdays, trips and deadlines</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Planners</span>Habit Tracker</dt>
+      <dd>Build streaks and check in every day</dd>
+    </div>
+    <div>
+      <dt><span class="cat">Focus</span>Focus Timer</dt>
+      <dd>Study timer with offline soundscapes</dd>
+    </div>
+  </dl>
+
+  <h2>How it handles your data</h2>
+  <p>
+    Every tool performs its work locally on your device. Text you paste into the text tools,
+    dates you enter, passwords and QR codes you generate, habits and countdowns you save —
+    all of it stays on the phone; AioTool does not upload it anywhere.
+  </p>
+  <p>
+    AioTool does not ask you for an email address, a phone number, a location, your contacts,
+    your camera, your microphone or your files.
+  </p>
+
+  <h2>Permissions</h2>
+  <p>
+    The app itself declares no Android permissions. The permissions that appear in the installed
+    package — network access and the advertising identifier — come from the third-party advertising
+    SDKs bundled with the free version, not from AioTool's own code.
+  </p>
+  <p>
+    AioTool is free and is supported by advertising. Ads may be served by Google AdMob, Unity Ads
+    and TopOn, and those networks may process device identifiers for ad targeting and measurement.
+    The full list, and the controls available to you, are set out in the
+    <a href="privacy-policy.html">Privacy Policy</a>.
+  </p>
+  <p class="note">
+    If a network listed in the Privacy Policy is not enabled in your region or in the current build,
+    no data is sent to it.
+  </p>
+
+  <h2>Languages</h2>
+  <p>
+    English, العربية, Deutsch, Español, Français, हिन्दी, Bahasa Indonesia, 日本語,
+    한국어, Português (Brasil), ไทย, Tiếng Việt.
+    The interface follows your device language, including right-to-left layout for Arabic.
+  </p>
+
+  <h2>Availability</h2>
+  <p>
+    AioTool is distributed through the Samsung Galaxy Store. Everything the app stores locally —
+    favorites, recently used tools, countdown events and habit check-ins — can be cleared from
+    <em>Settings → Clear local data</em>, and uninstalling removes it completely.
+  </p>
+  <p>
+    For anything else, including access or deletion requests relating to advertising data held
+    by our partners, use the contact address below.
+  </p>
+
+</main>
+
+<footer>
+  <nav>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="app-ads.txt">app-ads.txt</a>
+    <a href="https://galaxystore.samsung.com/detail/com.yaoyili.aitool">Galaxy Store</a>
+  </nav>
+  <address>
+    Developer: Yili Yao<br />
+    Contact: <a href="mailto:19994443997@163.com">19994443997@163.com</a><br />
+    Package name: com.yaoyili.aitool
+  </address>
+</footer>
+
+</body>
+</html>
