@@ -3,9 +3,8 @@
 # 该域名需与三星 Seller Portal「网站」字段、Unity「开发者网站」字段保持一致。
 
 # ── AdMob：我方 DIRECT 授权 ─────────────────────────────────────────
-# 2026-09-15 换用新 AdMob 账号（pub-2055582925296894），旧号 pub-9508988344348600 已注销。
-# ⚠️ 仅下方我方 DIRECT 行随账号变更；段尾几条 google.com RESELLER 属 Unity / TopOn ADX
-#    的转售授权，与本方 pub 号无关，换号时绝对不能一并替换。
+# 末尾 cert-id 为 Google 固定值。段尾另有几条 google.com RESELLER 行，属其他平台的
+# 转售授权，与本方发布商 ID 无关，改动本行时勿一并替换。
 google.com, pub-2055582925296894, DIRECT, f08c47fec0942fa0
 
 # ── Unity Ads：DIRECT + 其授权转售方 ───────────────────────────────
